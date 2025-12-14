@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Remarks Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Select Dashboard</h2>
+
+<div class="cards">
+  <div onclick="go('Arpita')">Arpita</div>
+  <div onclick="go('PRALOY')">PRALOY</div>
+  <div onclick="go('SAYNTA')">SAYNTA</div>
+  <div onclick="go('AMIT')">AMIT</div>
+</div>
+
+<script>
+function go(sheet) {
+  window.location.href = `dashboard.html?sheet=${sheet}`;
+}
+</script>
+
+</body>
+</html>
