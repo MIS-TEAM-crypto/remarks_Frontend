@@ -8,7 +8,7 @@
 
 body {
   margin: 0;
-  background: linear-gradient(135deg, #e6ca51, #2c9780);
+  background: linear-gradient(135deg, #eca7ca, #69e9e2);
   color: #1f2937;
 }
 
@@ -26,25 +26,26 @@ h2 {
    HOME PAGE (VERTICAL)
 ========================= */
 .cards {
-  display: flex;
-  flex-direction: column;        /* ✅ vertical layout */
+  display: grid;                 /* ✅ changed */
+  grid-template-columns: repeat(2, 1fr);  /* ✅ 2 cards side by side */
   gap: 30px;
   padding: 40px;
-  max-width: 500px;              /* professional centered width */
-  margin: 0 auto;                /* center on page */
+  max-width: 700px;              /* ✅ slightly wider for 2 cards */
+  margin: 0 auto;
 }
+
 
 .cards div {
   position: relative;
   background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: #fff;
-  border-radius: 18px;
-  padding: 40px 20px;
+  border-radius: 20px;
+  padding: 42px 20px;
   text-align: center;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.18);
   transition: transform .3s ease, box-shadow .3s ease;
 }
 
@@ -63,54 +64,96 @@ h2 {
 .cards div::before {
   content: attr(data-icon);
   display: block;
-  font-size: 42px;
-  margin-bottom: 12px;
+  font-size: 46px;
+  margin-bottom: 14px;
+}
+
+/* Subtitle */
+.card-subtitle {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+  letter-spacing: 0.4px;
 }
 
 /* Hover effect */
 .cards div:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 25px 45px rgba(0,0,0,0.25);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 30px 55px rgba(0,0,0,0.28);
 }
 
 /* =========================
    DASHBOARD HEADER
 ========================= */
 .dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: linear-gradient(135deg, #1e293b, #0f172a);
   color: white;
   padding: 18px 30px;
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 20; /* 🔥 higher than table header */
 }
 
 /* =========================
-   TABLE CONTAINER
+   COMMON REMARKS BUTTON
+========================= */
+.remarks-btn {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+
+/* =========================
+   TABLE WRAPPER (KEY FIX)
+========================= */
+.table-wrapper {
+  max-height: calc(100vh - 100px); /* 🔥 enables vertical scroll */
+  overflow: auto;                  /* 🔥 required for sticky */
+  margin: 20px;
+}
+
+/* =========================
+   TABLE
 ========================= */
 table {
-  width: 96%;
-  margin: 30px auto;
-  border-collapse: collapse;
+  width: 100%;
+  border-collapse: separate;  /* 🔥 sticky header fix */
+  border-spacing: 0;
   background: #ffffff;
-  border-radius: 14px;
-  overflow: hidden;
   box-shadow: 0 12px 28px rgba(0,0,0,0.12);
 }
 
 /* =========================
-   TABLE HEAD
+   TABLE HEAD (FIXED)
 ========================= */
+thead {
+  display: table-header-group; /* 🔥 important */
+}
+
 th {
+  position: sticky;
+  top: 0;                      /* sticks below dashboard */
   background: linear-gradient(135deg, #334155, #1e293b);
   color: #ffffff;
   padding: 14px;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  position: sticky;
-  top: 0;
-  z-index: 2;
+  z-index: 10;                 /* 🔥 visible always */
+  white-space: nowrap;
 }
 
 /* =========================
@@ -143,12 +186,6 @@ button {
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  transition: all .25s ease;
-}
-
-button:hover {
-  background: linear-gradient(135deg, #1d4ed8, #1e40af);
-  transform: scale(1.05);
 }
 
 /* =========================
@@ -162,23 +199,68 @@ button:hover {
   color: #15803d;
   font-weight: 600;
   font-size: 13px;
-  text-align: center;
+}
+
+.status-pending {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
 @media (max-width: 900px) {
-  table {
-    width: 99%;
-  }
-
   th, td {
     font-size: 12px;
     padding: 8px;
   }
 
-  .cards {
-    padding: 20px;
+  .dashboard-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}
+
+/* =========================
+   LOADER (NEW)
+========================= */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255,255,255,0.2);
+  border-top: 6px solid #22c55e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loader-text {
+  margin-top: 16px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

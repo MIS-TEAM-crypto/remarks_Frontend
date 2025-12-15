@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Remarks Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Select Dashboard</h2>
+<h2>📊 Select Dashboard</h2>
 
 <div class="cards">
-  <div onclick="go('Arpita')">Arpita</div>
-  <div onclick="go('PRALOY')">PRALOY</div>
-  <div onclick="go('SAYNTA')">SAYNTA</div>
-  <div onclick="go('AMIT')">AMIT</div>
+  <div data-icon="💬" onclick="go('Arpita')">
+    Arpita
+    <span class="card-subtitle">Remarks & Status</span>
+  </div>
+
+  <div data-icon="💬" onclick="go('PRALOY')">
+    PRALOY
+    <span class="card-subtitle">Remarks & Status</span>
+  </div>
+
+  <div data-icon="💬" onclick="go('SAYNTA')">
+    SAYNTA
+    <span class="card-subtitle">Remarks & Status</span>
+  </div>
+
+  <div data-icon="💬" onclick="go('AMIT')">
+    AMIT
+    <span class="card-subtitle">Remarks & Status</span>
+  </div>
 </div>
 
 <script>

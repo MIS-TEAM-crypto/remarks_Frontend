@@ -1,15 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<h2 id="title"></h2>
+<!-- =========================
+     LOADER (NEW)
+========================= -->
+<div id="loader" class="loader-overlay">
+  <div class="spinner"></div>
+  <div class="loader-text">Loading dashboard...</div>
+</div>
 
-<table id="dataTable"></table>
+<!-- =========================
+     DASHBOARD HEADER
+========================= -->
+<div class="dashboard-header">
+  <span id="title"></span>
+  <button class="remarks-btn" onclick="openRemarksForm()">➕ Add Remarks</button>
+</div>
 
+<!-- =========================
+     TABLE SECTION
+========================= -->
+<div class="table-wrapper">
+  <table id="dataTable"></table>
+</div>
+
+<!-- =========================
+     SCRIPT
+========================= -->
 <script src="dashboard.js"></script>
+
 </body>
 </html>

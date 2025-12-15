@@ -4,6 +4,19 @@
 const API_BASE_URL = "https://remarks-backend.onrender.com";
 
 /* ===========================
+   LOADER HELPERS
+=========================== */
+const loader = document.getElementById("loader");
+
+function showLoader() {
+  loader.style.display = "flex";
+}
+
+function hideLoader() {
+  loader.style.display = "none";
+}
+
+/* ===========================
    READ SHEET NAME
 =========================== */
 const params = new URLSearchParams(window.location.search);
@@ -19,9 +32,9 @@ document.getElementById("title").innerText = sheet + " Dashboard";
 /* ===========================
    FETCH DATA
 =========================== */
-fetch(
-  `${API_BASE_URL}/api?action=getRows&sheet=${encodeURIComponent(sheet)}`
-)
+showLoader();
+
+fetch(`${API_BASE_URL}/api?action=getRows&sheet=${encodeURIComponent(sheet)}`)
   .then(res => {
     if (!res.ok) throw new Error("API error");
     return res.json();
@@ -30,90 +43,72 @@ fetch(
     if (!json.data || json.data.length === 0) {
       document.getElementById("dataTable").innerHTML =
         "<tr><td>No data found</td></tr>";
+      hideLoader();
       return;
     }
 
-    // ✅ SORT: LATEST TIMESTAMP FIRST
-    json.data.sort((a, b) => {
-      return new Date(b["Timestamp"]) - new Date(a["Timestamp"]);
-    });
+    if (json.data[0]["Timestamp"]) {
+      json.data.sort(
+        (a, b) => new Date(b["Timestamp"]) - new Date(a["Timestamp"])
+      );
+    }
 
     renderTable(json.data);
+    hideLoader();
   })
   .catch(err => {
     console.error(err);
     document.getElementById("dataTable").innerHTML =
       "<tr><td>Failed to load data</td></tr>";
+    hideLoader();
   });
 
 /* ===========================
-   RENDER TABLE (FIXED ORDER)
+   RENDER TABLE (NO STATUS)
 =========================== */
 function renderTable(rows) {
   const table = document.getElementById("dataTable");
+  table.innerHTML = "";
 
-  // ✅ EXACT COLUMN ORDER AS REQUESTED
-  const columnOrder = [
-    "Timestamp",
-    "Site",
-    "Unique id",
-    "I.N",
-    "Item No",
-    "Item Description",
-    "UOM",
-    "Total QTY",
-    "Submitted By",
-    "SECTION",
-    "SEND FOR GET QUTATION",
-    "Doer Name",
-    "Doer Status",
-    "Technical Approvals from the Indenter",
-    "Approver Name",
-    "Make Commercial Negotiation & Finalise Terms",
-    "Get Approval",
-    "Approver Name",
-    "Generate all PO and Fill PO Google Form",
-    "Doer Name",
-    "PO Number",
-    "Vendor Name",
-    "Lead Days",
-    "Payment Condition",
-    "GRN to Store",
-    "Local Purchase"
-  ];
+  // 🔥 Headers exactly as sheet
+  const headers = Object.keys(rows[0]);
 
-  let html =
-    "<tr>" +
-    columnOrder.map(col => `<th>${col}</th>`).join("") +
-    "<th>Remarks</th></tr>";
+  const thead = document.createElement("thead");
+  const headRow = document.createElement("tr");
 
-  rows.forEach(r => {
-    const remarksSubmitted =
-      r["Remarks-1"] ||
-      r["Remarks-2"] ||
-      r["Remarks-3"] ||
-      r["Remarks-4"];
-
-    html +=
-      "<tr>" +
-      columnOrder.map(col => `<td>${r[col] ?? ""}</td>`).join("") +
-      `<td>${
-        remarksSubmitted
-          ? `<span class="status-done">Remarks Submitted</span>`
-          : `<button onclick="openForm('${sheet}','${r["Unique id"]}')">Remarks</button>`
-      }</td></tr>`;
+  headers.forEach(h => {
+    const th = document.createElement("th");
+    th.innerText = h;
+    headRow.appendChild(th);
   });
 
-  table.innerHTML = html;
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+
+    headers.forEach(h => {
+      const td = document.createElement("td");
+      td.innerText = r[h] ?? "";
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+
+  table.appendChild(tbody);
 }
 
 /* ===========================
    OPEN GOOGLE FORM
 =========================== */
-function openForm(sheet, uid) {
+function openRemarksForm() {
   const formUrl =
     "https://docs.google.com/forms/d/1ErfMkIOyJvUCMrS1t5zRm1RYADoFlWPgj9XvhlK9nuY/viewform" +
-    `?entry.111=${encodeURIComponent(sheet)}&entry.222=${encodeURIComponent(uid)}`;
+    `?entry.111=${encodeURIComponent(sheet)}`;
 
   window.open(formUrl, "_blank");
 }
