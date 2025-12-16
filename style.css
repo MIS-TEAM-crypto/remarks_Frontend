@@ -26,14 +26,13 @@ h2 {
    HOME PAGE (VERTICAL)
 ========================= */
 .cards {
-  display: grid;                 /* ✅ changed */
-  grid-template-columns: repeat(2, 1fr);  /* ✅ 2 cards side by side */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
   padding: 40px;
-  max-width: 700px;              /* ✅ slightly wider for 2 cards */
+  max-width: 700px;
   margin: 0 auto;
 }
-
 
 .cards div {
   position: relative;
@@ -45,22 +44,22 @@ h2 {
   font-size: 22px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 18px 35px rgba(0,0,0,0.18);
-  transition: transform .3s ease, box-shadow .3s ease;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Different colors per card */
 .cards div:nth-child(2) {
   background: linear-gradient(135deg, #06b6d4, #0891b2);
 }
+
 .cards div:nth-child(3) {
   background: linear-gradient(135deg, #22c55e, #16a34a);
 }
+
 .cards div:nth-child(4) {
   background: linear-gradient(135deg, #f97316, #ea580c);
 }
 
-/* Icon above text */
 .cards div::before {
   content: attr(data-icon);
   display: block;
@@ -68,7 +67,6 @@ h2 {
   margin-bottom: 14px;
 }
 
-/* Subtitle */
 .card-subtitle {
   display: block;
   margin-top: 8px;
@@ -78,10 +76,9 @@ h2 {
   letter-spacing: 0.4px;
 }
 
-/* Hover effect */
 .cards div:hover {
   transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 30px 55px rgba(0,0,0,0.28);
+  box-shadow: 0 30px 55px rgba(0, 0, 0, 0.28);
 }
 
 /* =========================
@@ -92,14 +89,14 @@ h2 {
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(135deg, #1e293b, #0f172a);
-  color: white;
+  color: #fff;
   padding: 18px 30px;
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.5px;
   position: sticky;
   top: 0;
-  z-index: 20; /* 🔥 higher than table header */
+  z-index: 20;
 }
 
 /* =========================
@@ -113,15 +110,15 @@ h2 {
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  color: white;
+  color: #fff;
 }
 
 /* =========================
-   TABLE WRAPPER (KEY FIX)
+   TABLE WRAPPER
 ========================= */
 .table-wrapper {
-  max-height: calc(100vh - 100px); /* 🔥 enables vertical scroll */
-  overflow: auto;                  /* 🔥 required for sticky */
+  max-height: calc(100vh - 100px);
+  overflow: auto;
   margin: 20px;
 }
 
@@ -129,41 +126,48 @@ h2 {
    TABLE
 ========================= */
 table {
-  width: 100%;
-  border-collapse: separate;  /* 🔥 sticky header fix */
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
   border-spacing: 0;
-  background: #ffffff;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 /* =========================
-   TABLE HEAD (FIXED)
+   TABLE HEAD
 ========================= */
 thead {
-  display: table-header-group; /* 🔥 important */
+  display: table-header-group;
 }
 
 th {
   position: sticky;
-  top: 0;                      /* sticks below dashboard */
+  top: 0;
   background: linear-gradient(135deg, #334155, #1e293b);
-  color: #ffffff;
+  color: #fff;
   padding: 14px;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  z-index: 10;                 /* 🔥 visible always */
-  white-space: nowrap;
+  z-index: 30;
 }
 
 /* =========================
    TABLE BODY
 ========================= */
+th,
+td {
+  white-space: normal;
+  word-break: break-word;
+  max-width: 220px;
+  vertical-align: top;
+}
+
 td {
   padding: 12px 14px;
   font-size: 14px;
   border-bottom: 1px solid #e5e7eb;
-  white-space: nowrap;
 }
 
 tr:nth-child(even) td {
@@ -174,12 +178,13 @@ tr:hover td {
   background: #eef2ff;
 }
 
+
 /* =========================
    BUTTONS
 ========================= */
 button {
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: white;
+  color: #fff;
   border: none;
   padding: 8px 16px;
   border-radius: 20px;
@@ -215,9 +220,11 @@ button {
    RESPONSIVE
 ========================= */
 @media (max-width: 900px) {
-  th, td {
+  th,
+  td {
     font-size: 12px;
     padding: 8px;
+    max-width: 160px;
   }
 
   .dashboard-header {
@@ -228,7 +235,7 @@ button {
 }
 
 /* =========================
-   LOADER (NEW)
+   LOADER
 ========================= */
 .loader-overlay {
   position: fixed;
@@ -245,7 +252,7 @@ button {
 .spinner {
   width: 60px;
   height: 60px;
-  border: 6px solid rgba(255,255,255,0.2);
+  border: 6px solid rgba(255, 255, 255, 0.2);
   border-top: 6px solid #22c55e;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -253,7 +260,7 @@ button {
 
 .loader-text {
   margin-top: 16px;
-  color: white;
+  color: #fff;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.5px;
